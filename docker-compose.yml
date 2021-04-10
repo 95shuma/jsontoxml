@@ -1,0 +1,24 @@
+
+version: '3'
+services:
+  db:
+    image: postgres:12-alpine
+    container_name: postgres
+    ports:
+      - 5430:5432
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data/pgdata
+    environment:
+      POSTGRES_DB: operation
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    restart: always
+
+  app:
+    build: .
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 5656:5656
